@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Form</title>
+  <style>
+    /* dark mode and center alignment */
+    body {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    /* container styling */
+    .form-container {
+      background-color: #34495e;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      width: 400px;
+    }
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form div {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .details {
+      font-size: 14px;
+      margin-top: 15px;
+      background-color: #3b5770;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .details p {
+      margin: 5px 0;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #e74c3c;
+      border: none;
+      border-radius: 4px;
+      color: #ecf0f1;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Payment Form</h1>
+    <form th:action="@{/payment}" method="post" th:object="${payment}">
+      <!-- hidden field to pass reservationId -->
+      <input type="hidden" name="reservationId" th:value="${reservationId}" />
+      <div>
+        <label for="amount">Total Amount:</label>
+        <!-- use readonly so that the value is submitted -->
+        <input type="text" id="amount" name="amount" th:value="${totalAmount}" readonly />
+      </div>
+      <div>
+        <label for="date">Date:</label>
+        <!-- use readonly instead of disabled, and format the date using #temporals -->
+        <input type="date" id="date" name="date" 
+               th:value="${#temporals.format(payment.date, 'yyyy-MM-dd')}" readonly />
+      </div>
+      <button type="submit">Confirm Payment</button>
+    </form>
+    
+    <!-- details section explaining the pricing breakdown -->
+    <div class="details">
+      <p>Base Price per Passenger: $<span th:text="${basePrice}"></span></p>
+      <p>Number of Passengers: <span th:text="${numberOfPassengers}"></span></p>
+      <p>Subtotal: $<span th:text="${subtotal}"></span></p>
+      <p>Tax (10%): $<span th:text="${tax}"></span></p>
+    </div>
+  </div>
+</body>
+</html>

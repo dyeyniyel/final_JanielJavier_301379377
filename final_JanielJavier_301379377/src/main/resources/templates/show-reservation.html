@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Reservation Confirmation</title>
+  <style>
+    body {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #34495e;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      width: 350px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    p {
+      margin: 10px 0;
+    }
+    a {
+      color: #e74c3c;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 15px;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">c
+    <h1>Reservation Confirmation</h1>
+    <p th:text="${message}">Your reservation is successfully processed!</p>
+    <div th:if="${savedReservation != null}">
+      <p>First Name: <span th:text="${savedReservation.firstName}"></span></p>
+      <p>Last Name: <span th:text="${savedReservation.lastName}"></span></p>
+      <p>No. of Passengers: <span th:text="${savedReservation.noOfPassengers}"></span></p>
+      <p>Selected Class: <span th:text="${savedReservation.travelClass}"></span></p>
+      <p>Phone Number: <span th:text="${savedReservation.phoneNumber}"></span></p>
+      <p>Time: <span th:text="${savedReservation.time}"></span></p>
+      <p>Date of Departing: <span th:text="${savedReservation.dateOfDeparting}"></span></p>
+    </div>
+    <a th:href="@{/}">Make Another Reservation</a>
+  </div>
+</body>
+</html>

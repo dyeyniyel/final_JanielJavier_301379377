@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Reservation Form</title>
+  <style>
+    /* dark mode styling for body */
+    body {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .form-container {
+      background-color: #34495e;
+      padding: 20px;
+      margin: 10px;
+      width: 400px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form div {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+    }
+    .error {
+      color: #ff6b6b;
+      font-size: 13px;
+      margin-top: 3px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #e74c3c;
+      border: none;
+      border-radius: 4px;
+      color: #ecf0f1;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <!-- new reservation form -->
+  <div class="form-container">
+    <h1>Reservation Form</h1>
+    <form th:action="@{/reservation}" method="post" th:object="${reservation}">
+        <div>
+          <label for="firstName">First Name:</label>
+          <input type="text" th:field="*{firstName}" id="firstName" required />
+          <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error"></div>
+        </div>
+        <div>
+          <label for="lastName">Last Name:</label>
+          <input type="text" th:field="*{lastName}" id="lastName" required />
+          <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error"></div>
+        </div>
+        <div>
+          <label for="noOfPassengers">No. of Passengers:</label>
+          <input type="number" th:field="*{noOfPassengers}" id="noOfPassengers" required />
+          <div th:if="${#fields.hasErrors('noOfPassengers')}" th:errors="*{noOfPassengers}" class="error"></div>
+        </div>
+        <div>
+          <label for="travelClass">Select Your Class:</label>
+          <select th:field="*{travelClass}" id="travelClass">
+            <option value="Economy">Economy</option>
+            <option value="Business">Business</option>
+            <option value="First">First</option>
+          </select>
+          <div th:if="${#fields.hasErrors('travelClass')}" th:errors="*{travelClass}" class="error"></div>
+        </div>
+        <div>
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="text" th:field="*{phoneNumber}" id="phoneNumber" required />
+          <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></div>
+        </div>
+        <div>
+          <label for="time">Time:</label>
+          <input type="time" th:field="*{time}" id="time" required />
+          <div th:if="${#fields.hasErrors('time')}" th:errors="*{time}" class="error"></div>
+        </div>
+        <div>
+          <label for="dateOfDeparting">Date of Departing:</label>
+          <input type="date" th:field="*{dateOfDeparting}" id="dateOfDeparting" required />
+          <div th:if="${#fields.hasErrors('dateOfDeparting')}" th:errors="*{dateOfDeparting}" class="error"></div>
+        </div>
+        <button type="submit">Submit Reservation</button>
+    </form>
+  </div>
+  
+  <!-- search reservation form -->
+  <div class="form-container">
+    <h2>Search Reservation</h2>
+    <form th:action="@{/searchReservation}" method="get">
+      <div>
+        <label for="reservationId">Reservation ID:</label>
+        <input type="text" id="reservationId" name="reservationId" placeholder="Enter Reservation ID" required />
+      </div>
+      <button type="submit">Search Reservation</button>
+    </form>
+  </div>
+</body>
+</html>

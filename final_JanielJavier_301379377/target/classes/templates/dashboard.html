@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        body {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #34495e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 500px;
+            margin-bottom: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="time"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #e74c3c;
+            border: none;
+            border-radius: 4px;
+            color: #ecf0f1;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+        a {
+            color: #e74c3c;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    
+    <!-- update reservation details -->
+    <div class="container">
+        <h2>Update Reservation</h2>
+        <form th:action="@{/dashboard/updateReservation}" method="post" th:object="${reservation}">
+            <!--#hidden field for reservation id to pass it-->
+            <input type="hidden" th:field="*{id}" />
+            <div>
+                <label for="firstName">First Name:</label>
+                <input type="text" th:field="*{firstName}" id="firstName" required />
+            </div>
+            <div>
+                <label for="lastName">Last Name:</label>
+                <input type="text" th:field="*{lastName}" id="lastName" required />
+            </div>
+            <div>
+                <label for="noOfPassengers">No. of Passengers:</label>
+          		<input type="number" th:field="*{noOfPassengers}" id="noOfPassengers" readonly="readonly" />
+            </div>
+            <div>
+                <label for="travelClass">Select Your Class:</label>
+          		<select th:field="*{travelClass}" id="travelClass" disabled>	
+                    <option value="Economy">Economy</option>
+                    <option value="Business">Business</option>
+                    <option value="First">First</option>
+                </select>
+                <input type="hidden" th:field="*{travelClass}" />	
+            </div>
+            <div>
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" th:field="*{phoneNumber}" id="phoneNumber" required />
+            </div>
+            <div>
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time"
+                       th:value="${reservation.time != null ? #temporals.format(reservation.time, 'HH:mm') : ''}" required />
+            </div>
+            <div>
+                <label for="dateOfDeparting">Date of Departing:</label>
+                <input type="date" id="dateOfDeparting" name="dateOfDeparting"
+                       th:value="${reservation.dateOfDeparting != null ? #temporals.format(reservation.dateOfDeparting, 'yyyy-MM-dd') : ''}" required />
+            </div>
+            <button type="submit">Update Reservation</button>
+        </form>
+    </div>
+    
+    <!-- update customer details -->
+    <div class="container">
+        <h2>Update Customer Details</h2>
+        <form th:action="@{/dashboard/updateCustomer}" method="post" th:object="${customer}">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{reservationId}" />
+            <div>
+                <label for="address">Address:</label>
+                <input type="text" th:field="*{address}" id="address" required />
+            </div>
+            <div>
+                <label for="details">Details:</label>
+                <textarea th:field="*{details}" id="details" rows="3" required></textarea>
+            </div>
+            <button type="submit">Update Customer</button>
+        </form>
+    </div>
+    
+    <!-- link to final confirmation page -->
+    <a th:href="@{/finalConfirmation(reservationId=${reservation.id})}">Go to Final Confirmation</a>
+</body>
+</html>
